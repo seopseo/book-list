@@ -1,0 +1,77 @@
+warning: LF will be replaced by CRLF in server/package.json.
+The file will have its original line endings in your working directory
+[1mdiff --git a/.gitignore b/.gitignore[m
+[1mdeleted file mode 100644[m
+[1mindex e69de29..0000000[m
+[1mdiff --git a/server/.gitignore b/server/.gitignore[m
+[1mindex e69de29..b512c09 100644[m
+[1m--- a/server/.gitignore[m
+[1m+++ b/server/.gitignore[m
+[36m@@ -0,0 +1 @@[m
+[32m+[m[32mnode_modules[m
+\ No newline at end of file[m
+[1mdiff --git a/server/index.js b/server/index.js[m
+[1mindex e69de29..a13e22a 100644[m
+[1m--- a/server/index.js[m
+[1m+++ b/server/index.js[m
+[36m@@ -0,0 +1,42 @@[m
+[32m+[m[32mvar express = require('express') // node_modules 내 express 관련 코드를 가져온다[m
+[32m+[m[32mvar app = express()[m
+[32m+[m[32mvar cors = require('cors')[m
+[32m+[m[32mvar logger = require('morgan')[m
+[32m+[m[32mvar mongoose = require('mongoose')[m
+[32m+[m[32mvar routes = require('./src/routes')[m
+[32m+[m
+[32m+[m[32mvar corsOptions = { // CORS 옵션[m
+[32m+[m[32m    origin: 'http://localhost:3000',[m
+[32m+[m[32m    credentials: true[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32mconst CONNECT_URL = 'mongodb://localhost:27017/seopseo'[m
+[32m+[m[32mmongoose.connect(CONNECT_URL, { // Mongo DB 서버 연결[m
+[32m+[m[32m    useNewUrlParser: true,[m
+[32m+[m[32m    useUnifiedTopology: true[m
+[32m+[m[32m}).then(() => console.log("mongodb connected ... "))[m
+[32m+[m[32m  .catch(e => console.log(`failed to connect mongodb: ${e}`))[m
+[32m+[m
+[32m+[m
+[32m+[m[32mapp.use(cors(corsOptions)) // CORS 설정[m
+[32m+[m[32mapp.use(express.json()) // request body 파싱[m
+[32m+[m[32mapp.use(logger('tiny'))[m
+[32m+[m
+[32m+[m[32mapp.use("/api", routes) // api 라우팅[m
+[32m+[m
+[32m+[m[32mapp.get('/hello', (req, res) => { // URL 응답 테스트[m
+[32m+[m[32m    res.send('hello world !')[m
+[32m+[m[32m})[m
+[32m+[m
+[32m+[m[32mapp.use((req, res, next) => { // 사용자가 요청한 페이지가 없는 경우 에러처리[m
+[32m+[m[32m    res.status(404).send("Sorry can't find page")[m
+[32m+[m[32m})[m
+[32m+[m
+[32m+[m[32mapp.use((err, req, res, next) => { // 서버 내부 오류 처리[m
+[32m+[m[32m    console.error(err.stack)[m
+[32m+[m[32m    res.status(500).send("something is broken on server !")[m
+[32m+[m[32m})[m
+[32m+[m
+[32m+[m[32mapp.listen(5000, () => { // 5000 포트로 서버 오픈[m
+[32m+[m[32m    console.log('server is running on port 5000 ... ')[m
+[32m+[m[32m})[m
+\ No newline at end of file[m
+[1mdiff --git a/server/package.json b/server/package.json[m
+[1mindex b25c8ae..74fb8ad 100644[m
+[1m--- a/server/package.json[m
+[1m+++ b/server/package.json[m
+[36m@@ -8,5 +8,11 @@[m
+   },[m
+   "keywords": [],[m
+   "author": "",[m
+[31m-  "license": "ISC"[m
+[32m+[m[32m  "license": "ISC",[m
+[32m+[m[32m  "dependencies": {[m
+[32m+[m[32m    "cors": "^2.8.5",[m
+[32m+[m[32m    "express": "^4.17.1",[m
+[32m+[m[32m    "mongoose": "^6.0.11",[m
+[32m+[m[32m    "morgan": "^1.10.0"[m
+[32m+[m[32m  }[m
+ }[m

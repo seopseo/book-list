@@ -1,9 +1,7 @@
 const express = require('express')
 const router = express.Router()
-// const book = require('./book')
-const word = require('./word')
+const book = require('./book')
 
-// router.use('/books', book)
-router.use('/words', word)   // /api/word로 실행
+router.use('/books', book)
 
 module.exports = router

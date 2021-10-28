@@ -14,19 +14,20 @@ var corsOptions = { //cors 옵션
 app.use(cors(corsOptions)) //cors 설정
 app.use(express.json()) //request body 파싱
 app.use(logger('tiny')) //Logger 설정
+app.use('/api', routes) //api 라우팅
 
 const CONNECT_URL = 'mongodb://localhost:27017/seopseo'
-mongoose.connect(CONNECT_URL, {
+mongoose.connect(CONNECT_URL, { // Mongo DB 서버 연결
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).then(() => console.log("mongodb connected..."))
     .catch(e => console.log(`failed to connect mongodb: ${e}`))
 
-app.use('/api', routes) //api 라우팅
 
-app.get('/hello', (req, res) => { //URL 응답 테스트
-    res.send('Hello World !')
-})
+
+// app.get('/hello', (req, res) => { //URL 응답 테스트
+//     res.send('Hello World !')
+// })
 
 //id값에 따라 출력값을 다르게 할때
 // app.get('/hello/:id', (req, res) => {
